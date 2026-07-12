@@ -11,7 +11,9 @@
     "lint": "oxlint && oxfmt --check",
     "format": "oxfmt --check",
     "format:fix": "oxfmt",
-    "lint:fix": "oxlint --fix && oxfmt"
+    "lint:fix": "oxlint --fix && oxfmt",
+    "seed": "node --env-file .env.local --import tsx lib/seed.ts",
+    "db:push": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/next_agentic_rag npx drizzle-kit push"
   },
   "dependencies": {
     "@ai-sdk/mcp": "^1.0.52",
