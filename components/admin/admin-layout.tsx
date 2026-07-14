@@ -1,10 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { CollapsibleSidebar, CollapsibleSidebarTrigger } from "./collapsible-sidebar";
-import { AdminChat } from "./admin-chat";
-import { SettingsPanel } from "./settings-panel";
-import { SourcesPanel } from "./sources-panel";
+import { LibraryBig, Settings } from "lucide-react";
+import {
+  CollapsibleSidebar,
+  CollapsibleSidebarHeader,
+  CollapsibleSidebarBody,
+  CollapsibleSidebarTrigger,
+} from "@/components/admin/collapsible-sidebar";
+import { ChatPanel } from "@/components/chat-panel";
+import { SettingsPanel } from "@/components/admin/settings-panel";
+import { SourcesPanel } from "@/components/admin/sources-panel";
 import type { SettingKey } from "@/lib/services/admin-settings";
 
 interface AdminLayoutProps {
@@ -16,14 +22,19 @@ export function AdminLayout({ settings }: AdminLayoutProps) {
   const [rightOpen, setRightOpen] = useState(true);
 
   return (
-    <div className="flex h-dvh">
-      <CollapsibleSidebar side="left" open={leftOpen}>
-        <h2 className="mb-4 text-sm font-semibold">Knowledge Sources</h2>
-        <SourcesPanel />
+    <div className="relative flex h-dvh">
+      <CollapsibleSidebar side="left" open={leftOpen} onToggle={() => setLeftOpen((v) => !v)}>
+        <CollapsibleSidebarHeader>
+          <LibraryBig className="size-5 shrink-0" />
+          <h2 className="text-sm font-semibold">Knowledge Sources</h2>
+        </CollapsibleSidebarHeader>
+        <CollapsibleSidebarBody>
+          <SourcesPanel />
+        </CollapsibleSidebarBody>
       </CollapsibleSidebar>
 
-      <main className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-16 shrink-0 items-center border-b px-4">
+      <main className="relative flex min-w-0 flex-1 flex-col">
+        <div className="absolute inset-x-0 top-0 z-10 flex h-16 items-center px-4">
           <CollapsibleSidebarTrigger
             side="left"
             open={leftOpen}
@@ -36,15 +47,20 @@ export function AdminLayout({ settings }: AdminLayoutProps) {
               onToggle={() => setRightOpen((v) => !v)}
             />
           </div>
-        </header>
-        <div className="flex-1 overflow-hidden">
-          <AdminChat />
+        </div>
+        <div className="flex-1 overflow-hidden pt-16">
+          <ChatPanel />
         </div>
       </main>
 
-      <CollapsibleSidebar side="right" open={rightOpen}>
-        <h2 className="mb-4 text-sm font-semibold">Settings</h2>
-        <SettingsPanel initialSettings={settings} />
+      <CollapsibleSidebar side="right" open={rightOpen} onToggle={() => setRightOpen((v) => !v)}>
+        <CollapsibleSidebarHeader>
+          <Settings className="size-5 shrink-0" />
+          <h2 className="text-sm font-semibold">Settings</h2>
+        </CollapsibleSidebarHeader>
+        <CollapsibleSidebarBody>
+          <SettingsPanel initialSettings={settings} />
+        </CollapsibleSidebarBody>
       </CollapsibleSidebar>
     </div>
   );

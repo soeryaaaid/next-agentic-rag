@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Save } from "lucide-react";
 import { updateSettingsAction } from "@/lib/actions/admin-settings";
 import type { SettingKey } from "@/lib/services/admin-settings";
 
@@ -42,7 +43,8 @@ export function SettingsPanel({ initialSettings }: SettingsPanelProps) {
           value={systemPrompt}
           onChange={(e) => setSystemPrompt(e.target.value)}
           placeholder="Instructions for the AI assistant..."
-          rows={4}
+          rows={1}
+          className="bg-background min-h-[160px]"
         />
       </div>
 
@@ -51,11 +53,11 @@ export function SettingsPanel({ initialSettings }: SettingsPanelProps) {
       <div className="space-y-2">
         <Label htmlFor="assistant-model">Assistant Model</Label>
         <Select value={assistantModel} onValueChange={setAssistantModel}>
-          <SelectTrigger id="assistant-model" className="w-full">
+          <SelectTrigger id="assistant-model" className="w-full bg-background">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="xiaomi/mimo-v2.5">xiaomi/mimo-v2.5</SelectItem>
+            <SelectItem value="xiaomi/mimo-v2.5">MiMo-V2.5</SelectItem>
             <SelectItem value="anthropic/claude-sonnet-4">Claude Sonnet 4</SelectItem>
             <SelectItem value="anthropic/claude-haiku-4">Claude Haiku 4</SelectItem>
             <SelectItem value="openai/gpt-4o">GPT-4o</SelectItem>
@@ -70,7 +72,7 @@ export function SettingsPanel({ initialSettings }: SettingsPanelProps) {
       <div className="space-y-2">
         <Label htmlFor="top-k">Retrieved Contexts</Label>
         <Select value={topK} onValueChange={setTopK}>
-          <SelectTrigger id="top-k" className="w-full">
+          <SelectTrigger id="top-k" className="w-full bg-background">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -85,8 +87,9 @@ export function SettingsPanel({ initialSettings }: SettingsPanelProps) {
         type="button"
         onClick={handleSave}
         disabled={isPending}
-        className="w-full"
+        className="w-full gap-2"
       >
+        <Save className="size-4" />
         {isPending ? "Saving..." : "Save"}
       </Button>
 
