@@ -1,6 +1,8 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getSettings } from "@/lib/services/admin-settings";
+import { AdminLayout } from "@/components/admin/admin-layout";
 
 export default async function AdminPage() {
   const session = await auth.api.getSession({
@@ -9,12 +11,7 @@ export default async function AdminPage() {
 
   if (!session) redirect("/login");
 
-  return (
-    <div>
-      <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-      <p className="mt-2 text-neutral-600">
-        Welcome, {session.user.name || session.user.email}
-      </p>
-    </div>
-  );
+  const settings = await getSettings();
+
+  return <AdminLayout settings={settings} />;
 }
